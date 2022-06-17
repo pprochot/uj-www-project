@@ -1,28 +1,16 @@
-export const AuthService = {
-    registeredEmail: null,
-    registeredPassword: null,
+import {Base64} from "js-base64";
 
-    toBinary(string) {
-        const codeUnits = new Uint16Array(string.length);
-        for (let i = 0; i < codeUnits.length; i++) {
-            codeUnits[i] = string.charCodeAt(i);
-        }
-        const charCodes = new Uint8Array(codeUnits.buffer);
-        let result = '';
-        for (let i = 0; i < charCodes.byteLength; i++) {
-            result += String.fromCharCode(charCodes[i]);
-        }
-        return result;
-    },
+export const AuthService = {
+    email: null,
+    password: null,
 
     headers() {
         return {
             "Content-Type": "application/json;charset=UTF-8",
             "Authorization": "Basic " +
-                this.toBinary(`${this.registeredEmail}:${this.registeredPassword}`)
+                Base64.encode(`${this.email}:${this.password}`)
         }
-    }
-    ,
+    },
 
     register(email, password, matchingPassword, role) {
         switch (role) {
@@ -31,8 +19,7 @@ export const AuthService = {
             case "user":
                 return this.registerUser(email, password, matchingPassword);
         }
-    }
-    ,
+    },
 
     registerAdmin(email, password, matchingPassword) {
         return fetch("http://localhost:3000/register/admin", {
@@ -49,5 +36,28 @@ export const AuthService = {
             headers: {"Content-Type": "application/json;charset=UTF-8"},
             body: JSON.stringify({email, password, matchingPassword})
         })
+    },
+
+    getUsers() {
+        return fetch("http://localhost:3000/user", {
+            method: "GET",
+            headers: {"Content-Type": "application/json;charset=UTF-8"}
+        })
+    },
+
+    setAuth(email, password) {
+        this.email = email;
+        this.password = password;
+        localStorage.setItem("email", email)
+        localStorage.setItem("password", password)
+    },
+
+    refreshAuth() {
+        this.email = localStorage.getItem("email");
+        this.password = localStorage.getItem("password");
+    },
+
+    isAuth() {
+        return !!this.email && !!this.password;
     }
 }

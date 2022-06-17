@@ -32,8 +32,7 @@ export default function Register() {
                 .then(res => {
                     if (res.status === 200) {
                         // TODO redirect to antoher page
-                        AuthService.registeredEmail = email;
-                        AuthService.registeredPassword = password;
+                        AuthService.setAuth(email, password)
                         setSuccessMessage("Registered user!")
                     } else {
                         setErrorMessage("Failed to register!")

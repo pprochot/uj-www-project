@@ -1,7 +1,6 @@
 import {Box, Button, TextField} from "@mui/material";
 import {useState} from "react";
 import {ApartmentService} from "../services/ApartmentService";
-import {AuthService} from "../services/AuthService";
 
 export default function CreateApartment() {
 
@@ -14,7 +13,7 @@ export default function CreateApartment() {
         const name = data.get("name");
         const address = data.get("address");
         const roommatesMails = data.get("roommatesMails").split(",").map(a => a.trim());
-        console.log(btoa(`${AuthService.registeredEmail}:${AuthService.registeredPassword}`))
+
         setErrorMessage("")
         ApartmentService.createApartment(name, address, roommatesMails)
             .then(res => {

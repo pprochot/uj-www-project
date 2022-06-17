@@ -9,7 +9,7 @@ export const ApartmentService = {
         })
     },
 
-    getApartments() {
+    getUserApartments() {
         return fetch("http://localhost:3000/apartment", {
             method: "GET",
             headers: AuthService.headers()
