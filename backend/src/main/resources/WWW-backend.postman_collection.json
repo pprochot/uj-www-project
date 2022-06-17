@@ -127,7 +127,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Get apartments",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -145,7 +145,13 @@
 					]
 				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic bnVsbDpudWxs",
+						"type": "default"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:8080/apartment",
 					"protocol": "http",
@@ -182,7 +188,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"housework1\",\n    \"description\": \"Cleaning\",\n    \"apartmentId\": 1,\n    \"executorMail\": \"admin@gmail.com\"\n}",
+					"raw": "{\n    \"name\": \"housework3\",\n    \"description\": \"Cleaning14\",\n    \"apartmentId\": 1,\n    \"executorMail\": \"admin@gmail.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -195,10 +201,7 @@
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
-					"path": [
-						"housework"
-					]
+					"port": "8080"
 				}
 			},
 			"response": []
@@ -250,6 +253,54 @@
 					"path": [
 						"housework",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "admin@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user?size=10&page=1&sort=email,asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "sort",
+							"value": "email,asc"
+						}
 					]
 				}
 			},

@@ -38,10 +38,10 @@ export const AuthService = {
         })
     },
 
-    getUsers() {
-        return fetch("http://localhost:3000/user", {
+    getUsers(size, page) {
+        return fetch(`http://localhost:3000/user?page=${page}&size=${size}&sort=email,asc`, {
             method: "GET",
-            headers: {"Content-Type": "application/json;charset=UTF-8"}
+            headers: AuthService.headers()
         })
     },
 
@@ -55,9 +55,20 @@ export const AuthService = {
     refreshAuth() {
         this.email = localStorage.getItem("email");
         this.password = localStorage.getItem("password");
+        console.log(this.email)
     },
 
     isAuth() {
         return !!this.email && !!this.password;
+    },
+
+    logIn(email, password) {
+        return fetch("http://localhost:3000/any", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8",
+                "Authorization": "Basic " + Base64.encode(`${email}:${password}`)
+            }
+        })
     }
 }

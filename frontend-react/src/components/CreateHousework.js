@@ -1,8 +1,8 @@
 import {Box, Button, TextField} from "@mui/material";
 import {useState} from "react";
-import {ApartmentService} from "../services/ApartmentService";
+import {HouseworkService} from "../services/HouseworkService";
 
-export default function CreateApartment() {
+export default function CreateHousework() {
 
     const [errorMessage, setErrorMessage] = useState("")
     const [successMessage, setSuccessMessage] = useState("")
@@ -11,19 +11,20 @@ export default function CreateApartment() {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const name = data.get("name");
-        const address = data.get("address");
-        const roommatesMails = data.get("roommatesMails").split(",").map(a => a.trim());
+        const description = data.get("description");
+        const apartmentId = data.get("apartmentId");
+        const executorMail = data.get("executorMail")
 
         setErrorMessage("")
-        ApartmentService.createApartment(name, address, roommatesMails)
+        HouseworkService.createHousework(name, description, apartmentId, executorMail)
             .then(res => {
                 if (res.status === 200) {
                     return res.json()
                 } else {
-                    return Promise.reject("Failed to create apartment!")
+                    return Promise.reject("Failed to create housework!")
                 }
             })
-            .then(() => setSuccessMessage("Created apartment."))
+            .then(() => setSuccessMessage("Created Housework."))
             .catch(err => setErrorMessage(err))
     }
 
@@ -38,21 +39,28 @@ export default function CreateApartment() {
             />
 
             <TextField required
-                       id="address"
-                       label="Address"
-                       name="address"
+                       id="description"
+                       label="Description"
+                       name="description"
                        autoFocus
             />
 
             <TextField required
-                       id="roommatesMails"
-                       label="Roommates Mails separated by comma"
-                       name="roommatesMails"
+                       id="apartmentId"
+                       label="Apartment id"
+                       name="apartmentId"
+                       autoFocus
+            />
+
+            <TextField required
+                       id="executorMail"
+                       label="Executor mail"
+                       name="executorMail"
                        autoFocus
             />
 
             <Button type="submit" variant="contained">
-                Create apartment
+                Create housework
             </Button>
 
             <Box sx={{color: "red"}}>

@@ -17,10 +17,9 @@ export const HouseworkService = {
     },
 
     setHouseworkAsCompleted(houseworkId) {
-        return fetch("http://localhost:3000/housework", {
+        return fetch(`http://localhost:3000/housework/${houseworkId}`, {
             method: "PATCH",
-            headers: AuthService.headers(),
-            body: JSON.stringify({houseworkId})
+            headers: AuthService.headers()
         })
     }
 }

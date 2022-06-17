@@ -21,6 +21,7 @@ public class User {
     private Long userId;
 
     @NotNull
+    @Column(name = "email")
     private String email;
 
     @NotNull

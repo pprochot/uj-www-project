@@ -12,7 +12,10 @@ import uj.pprochot.www.backend.ri.repository.HouseworkRepository;
 import uj.pprochot.www.backend.ri.repository.UserRepository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +51,9 @@ public class HouseworkService {
                 savedHousework.getDescription(),
                 savedHousework.getApartment().getApartmentId(),
                 savedHousework.getExecutor().getEmail(),
-                savedHousework.getCompletionDate()
+                Optional.ofNullable(savedHousework.getCompletionDate())
+                        .map(a -> a.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC) * 1_000)
+                        .orElse(null)
         );
     }
 
@@ -60,7 +65,9 @@ public class HouseworkService {
                         housework.getDescription(),
                         housework.getApartment().getApartmentId(),
                         housework.getExecutor().getEmail(),
-                        housework.getCompletionDate()
+                        Optional.ofNullable(housework.getCompletionDate())
+                                .map(a -> a.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC) * 1_000)
+                                .orElse(null)
                 )).toList();
     }
 
@@ -86,7 +93,9 @@ public class HouseworkService {
                 housework.getDescription(),
                 housework.getApartment().getApartmentId(),
                 housework.getExecutor().getEmail(),
-                housework.getCompletionDate()
+                Optional.ofNullable(housework.getCompletionDate())
+                        .map(a -> a.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC) * 1_000)
+                        .orElse(null)
         );
     }
 

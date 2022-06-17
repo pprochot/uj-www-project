@@ -2,41 +2,28 @@ import {Box, Button, MenuItem, TextField} from "@mui/material";
 import {useState} from "react";
 import {AuthService} from "../services/AuthService";
 
-const roles = [
-    {
-        value: "admin",
-        label: 'Admin',
-    },
-    {
-        value: "user",
-        label: 'User',
-    }
-];
-
-export default function Register() {
+export default function LogIn() {
 
     const [errorMessage, setErrorMessage] = useState("")
     const [successMessage, setSuccessMessage] = useState("")
 
-    function register(event) {
+    function logIn(event) {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const email = data.get("email");
         const password = data.get("password");
-        const matchingPassword = data.get("matchingPassword");
-        const role = data.get("role")
 
-        if (email.includes("@") && password === matchingPassword) {
+        if (email.includes("@")) {
             setErrorMessage("")
-            AuthService.register(email, password, matchingPassword, role)
+            AuthService.logIn(email, password)
                 .then(res => {
-                    if (res.status === 200) {
+                    if (res.status !== 401) {
                         AuthService.setAuth(email, password)
-                        setSuccessMessage("Registered user!")
+                        setSuccessMessage("Signed in!")
                         setErrorMessage("")
                     } else {
                         setSuccessMessage("")
-                        setErrorMessage("Failed to register!")
+                        setErrorMessage("Failed to sign in!")
                     }
                 })
                 .catch(err => setErrorMessage(err))
@@ -46,7 +33,7 @@ export default function Register() {
     }
 
     return (
-        <Box component="form" sx={{margin: 5, display: "flex", flexDirection: "column", gap: 1}} onSubmit={register}>
+        <Box component="form" sx={{margin: 5, display: "flex", flexDirection: "column", gap: 1}} onSubmit={logIn}>
             <TextField required
                        id="email"
                        label="Email"
@@ -62,24 +49,8 @@ export default function Register() {
                        autoFocus
             />
 
-            <TextField type="password"
-                       required
-                       id="matchingPassword"
-                       label="Matching password"
-                       name="matchingPassword"
-                       autoFocus
-            />
-
-            <TextField select id="role" name="role" label="Role" defaultValue="admin">
-                {roles.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-
             <Button type="submit" variant="contained">
-                Sign Up
+                Sign In
             </Button>
 
             <Box sx={{color: "red"}}>
